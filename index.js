@@ -22,6 +22,14 @@ async function run() {
         await client.connect();
         const database = client.db("delivery_service");
         const servicesCollection = database.collection("services");
+
+        //GET API to get services
+        app.get('/services', async (req, res) => {
+            const cursor = servicesCollection.find({});
+            const services = await cursor.toArray();
+            console.log(services);
+            res.json(services)
+        })
     }
     finally {
         //   await client.close();
