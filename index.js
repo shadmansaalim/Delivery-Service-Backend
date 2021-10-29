@@ -22,6 +22,7 @@ async function run() {
         await client.connect();
         const database = client.db("delivery_service");
         const servicesCollection = database.collection("services");
+        const ordersCollection = database.collection("orders");
 
         //GET API to get services
         app.get('/services', async (req, res) => {
@@ -36,6 +37,13 @@ async function run() {
             const query = {_id: ObjectId(id)};
             const service = await servicesCollection.findOne(query);
             res.json(service);
+        })
+
+        //POST API to Add User Orders
+        app.post('/orders', async(req,res) => {
+            const order = req.body;
+            const result = await ordersCollection.insertOne(order);
+            res.json(result);
         })
     }
     finally {
