@@ -32,26 +32,35 @@ async function run() {
         })
 
         //GET Single Service by ID
-        app.get('/services/:id', async(req,res) => {
+        app.get('/services/:id', async (req, res) => {
             const id = req.params.id;
-            const query = {_id: ObjectId(id)};
+            const query = { _id: ObjectId(id) };
             const service = await servicesCollection.findOne(query);
             res.json(service);
         })
 
         //POST API to Add User Orders
-        app.post('/orders', async(req,res) => {
+        app.post('/orders', async (req, res) => {
             const order = req.body;
             const result = await ordersCollection.insertOne(order);
             res.json(result);
         })
 
+        //POST API to collect single user orders
         app.post('/myOrders', async (req, res) => {
             const userEmail = req.body.email;
             const query = { senderEmail: userEmail };
             const orderDetails = await ordersCollection.find(query).toArray();
             res.json(orderDetails);
-    
+
+        })
+
+        //DELETE API to delete user orders
+        app.delete('/orders/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const result = await ordersCollection.deleteOne(query);
+            res.json(result);
         })
     }
     finally {
