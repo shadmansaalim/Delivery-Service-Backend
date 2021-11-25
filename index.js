@@ -55,7 +55,7 @@ async function run() {
 
         })
 
-        //DELETE API to delete user orders
+        //DELETE API to delete user orders of user
         app.delete('/orders/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: ObjectId(id) };
